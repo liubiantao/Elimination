@@ -5,20 +5,23 @@ var Game = {};
 Game.Load=function(game){}
 Game.Load.prototype={
     preload:function(){
-        game.load.image('background','img/bk.png');
-        game.load.image('green',"img/green.png");
-        game.load.image('orange','img/orange.png');
-        game.load.image('pink','img/pink.png');
-        game.load.image('yellow','img/yellow.png');
+//        game.load.image('background','img/bk.png');
+//        game.load.image('green',"img/green.png");
+//        game.load.image('orange','img/orange.png');
+//        game.load.image('pink','img/pink.png');
+//
+        game.load.image('blue1','img/blue1.png');
+        game.load.image('blue2','img/blue2.png');
+        game.load.image('pink2','img/pink2.png');
+        game.load.image('red','img/red.png');
+        game.load.image('coffee','img/coffee.png');
         game.load.audio('clear',['audio/clear.wav']);
         for(var i=0;i<SIZE;i++) //init one 7*7 matrix value to 0;
         {
             Matrix[i]= NOT_FILLED;
 
         }
-//        for(var k=Math.floor(SIZE/2);k<SIZE;k++){
-//            Matrix[k]= 1;
-//        }
+
 
     },
     create:function(){

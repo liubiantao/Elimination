@@ -17,10 +17,9 @@ Game.Play.prototype = {
     create: function () {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.stage.backgroundColor = '#34495e';
+        this.stage.backgroundColor = '#ffffff';
         BLOCKS = game.add.group();
         this.clearSound = game.add.sound('clear');
-
         this.clearSound.play();
         this.createBlock(20);
         this.isInMovingAction=false;
@@ -30,9 +29,10 @@ Game.Play.prototype = {
     updateBlockPosition: function (item) {
 //        if(this.isOver() )
 //            this.over();
+
         this.isInMovingAction = true;
         var hasMoved = false;
-        if (this.canBeMoved(item.lastMatrixValue, item.y / BLOCKSIZE * SIZEX + item.x / BLOCKSIZE) === -1) { // -1 standard for can not moved, so backto last position
+        if (this.canBeMoved(item.lastMatrixValue, (item.y-BasePostion.y)/ BLOCKSIZE * SIZEX + (item.x-BasePostion.x)/ BLOCKSIZE) === -1) { // -1 standard for can not moved, so backto last position
             item.x = item.lastPostionX;
             item.y = item.lastPostionY;
         }
@@ -42,7 +42,7 @@ Game.Play.prototype = {
             item.lastPostionY = item.y;
             Matrix[item.lastMatrixValue] = NOT_FILLED;
             //new point
-            item.lastMatrixValue = item.y / BLOCKSIZE * SIZEX + item.x / BLOCKSIZE;
+            item.lastMatrixValue = (item.y-BasePostion.y)/ BLOCKSIZE * SIZEX + (item.x-BasePostion.x)/ BLOCKSIZE;
             Matrix[item.lastMatrixValue] = item.color;
             var clearList =this.getClearBlockList(item.lastMatrixValue, item.color);
             if (clearList.length === 0) {
@@ -95,10 +95,10 @@ Game.Play.prototype = {
         return Math.floor(id / SIZEX);
     },
     getPosX: function (id) {
-        return this.getX(id) * BLOCKSIZE;
+        return BasePostion.x +this.getX(id) * BLOCKSIZE;
     },
     getPosY: function (id) {
-        return this.getY(id) * BLOCKSIZE;
+        return BasePostion.y+this.getY(id) * BLOCKSIZE;
     },
     drawOneBlock: function (colorIndex, x, y, posx, posy) {
         var block = BLOCKS.create(posx, posy, COLOR[colorIndex]); //TODO make it fake show
@@ -107,8 +107,8 @@ Game.Play.prototype = {
         game.physics.arcade.enable(block);
         block.body.collideWorldBounds = true;
         block.inputEnabled = true;
-        block.input.enableDrag(false, true, false, 255,new Phaser.Rectangle(0,0,700,700));
-        block.input.enableSnap(100, 100, false, true);
+        block.input.enableDrag(false, true, false, 255,new Phaser.Rectangle(BasePostion.x,BasePostion.y,WIDTH- 2*BasePostion.x,WIDTH- 2*BasePostion.x));
+        block.input.enableSnap(BasePostion.width, BasePostion.width, false, true, BasePostion.x , BasePostion.y);
         block.events.onDragStop.add(this.updateBlockPosition, this);
         //add customer property
         // last position
