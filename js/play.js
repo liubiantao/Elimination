@@ -17,18 +17,20 @@ Game.Play.prototype = {
     create: function () {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.drawBackgroundBlock();
+        this.drawScoreLabel();
         this.stage.backgroundColor = '#ffffff';
         BLOCKS = game.add.group();
         this.clearSound = game.add.sound('clear');
-        this.clearSound.play();
-        this.createBlock(20);
-        this.isInMovingAction=false;
+
+        this.createBlock(35);
+
 
     },
 
     updateBlockPosition: function (item) {
-//        if(this.isOver() )
-//            this.over();
+        if(this.isOver() )
+            this.over();
 
         this.isInMovingAction = true;
         var hasMoved = false;
@@ -46,7 +48,7 @@ Game.Play.prototype = {
             Matrix[item.lastMatrixValue] = item.color;
             var clearList =this.getClearBlockList(item.lastMatrixValue, item.color);
             if (clearList.length === 0) {
-                this.createBlock(6);
+                this.createBlock(7);
 
             }
             else
@@ -226,7 +228,10 @@ Game.Play.prototype = {
                     fade.onComplete.add(function () {
                         BLOCKS.remove(item);
                         Matrix[ item.lastMatrixValue] = NOT_FILLED;
+
                     });
+                    GlobalScore++
+                    ScoreText.setText(GlobalScore.toString());
                     return;
                 }
             },this,true)
@@ -238,35 +243,8 @@ Game.Play.prototype = {
         //game.debug.text(this.result,300,300);
     },
     update1: function () {
-        game.physics.arcade.collide(BLOCKS);
-//
-//        var blankMatrix = [];
-//        for (var k = 0; k < SIZE; k++) {
-//            if (Matrix[k] === NOT_FILLED)
-//                blankMatrix.push(k);
-//        }
-//        if(blankMatrix.length===0)
-//        {
-//            this.over();
-//        }
-//        var needClear = false;
-//        if (!this.isInMovingAction) {
-//            this.isInMovingAction =true;
-//            BLOCKS.sort("z", Phaser.Group.SORT_DESCENDING);
-//            BLOCKS.forEach(function (item) {
-//
-//                    var clearList =this.getClearBlockList(item.lastMatrixValue, item.color);
-//                    if (clearList.length != 0) {
-//                        needClear = true;
-//                        this.clearBlock(clearList);
-//
-//                    }
-//
-//            },this,true);
-//            if(needClear)
-//                this.clearSound.play();
-//
-//        }
+//        game.physics.arcade.collide(BLOCKS);
+
     },
     isOver:function(){
         for (var k = 0; k < SIZE; k++) {
@@ -279,6 +257,26 @@ Game.Play.prototype = {
     },
     over:function(){
         game.state.start('Over');
-    }
+    },
+    drawBackgroundBlock:function(){
 
+        var graphics = game.add.graphics(0, 0);
+        graphics.beginFill(0xEEEEEE, 0.7); //grey background block
+        for(var _i=0;_i<SIZEX;_i++){
+            for(var _k=0;_k<SIZEY;_k++){
+                graphics.drawRect(BasePostion.x+_i*BasePostion.width,BasePostion.y+_k*BasePostion.width,BLOCKSIZE-LineBorder,BLOCKSIZE-LineBorder);
+            }
+        }
+        graphics.endFill();
+    },
+    drawScoreLabel:function(){
+        game.add.text(16, 30, "SCORE :", {
+            font: "16px Arial",
+            fill: "#333333"
+        });
+        ScoreText = game.add.text(90, 30, "0 ", {
+            font: "bold 16px Arial",
+            fill: "#333333"
+        });
+    }
 }

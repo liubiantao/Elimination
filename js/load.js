@@ -25,27 +25,18 @@ Game.Load.prototype={
 
     },
     create:function(){
-        game.stage.backgroundColor = '#fff';
+        game.stage.backgroundColor = '#ffffff';
         introText = game.add.text(game.world.centerX - 60, game.world.centerY, 'Click to start', {
             font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
             fill: "#999",
             align: "center"
         });
-        scoreTextBefore = game.add.text(16, 30, "SCORE :", {
-            font: "16px Arial",
-            fill: "#333333"
-        });
-        scoreText = game.add.text(90, 30, "0", {
-            font: "bold 16px Arial",
-            fill: "#333333"
-        });
-        scoreTextBefore.visible = false;
-        scoreText.visible = false;
 
-       // return game.input.onDown.addOnce(function() {
-            //gameScore = 0;
+
+       return game.input.onDown.addOnce(function() {
+            gameScore = 0;
             return game.state.start('Play');
-        //});
+        });
 
     }
 }
