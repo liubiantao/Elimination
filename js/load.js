@@ -16,11 +16,7 @@ Game.Load.prototype={
         game.load.image('red','img/red.png');
         game.load.image('coffee','img/coffee.png');
         game.load.audio('clear',['audio/clear.wav']);
-        for(var i=0;i<SIZE;i++) //init one 7*7 matrix value to 0;
-        {
-            Matrix[i]= NOT_FILLED;
 
-        }
 
 
     },

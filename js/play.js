@@ -6,7 +6,7 @@ Game.Play = function () {
     this.result = "";
     this.isInMovingAction = true;
 }
-Game.Play.prototype = {
+Game.Play.prototype = { // to make show level,not score,then adjust createblock number with level
     preload:function(){
         for(var i=0;i<SIZE;i++) //init one 7*7 matrix value to 0;
         {
@@ -105,7 +105,8 @@ Game.Play.prototype = {
     drawOneBlock: function (colorIndex, x, y, posx, posy) {
         var block = BLOCKS.create(posx, posy, COLOR[colorIndex]); //TODO make it fake show
         block.alpha=0;
-        game.add.tween(block).to({ alpha: 1}, 500, Phaser.Easing.Quartic.InOut, true, 0).start();
+        game.add.tween(block).to({ alpha: 1}, 1000, Phaser.Easing.Quartic.Out, true, 0).start();
+
         game.physics.arcade.enable(block);
         block.body.collideWorldBounds = true;
         block.inputEnabled = true;
@@ -222,8 +223,11 @@ Game.Play.prototype = {
         for (var i = 0; i < len; i++) {
             BLOCKS.forEach(function (item) {
                 if ( clearList[i] === item.lastMatrixValue) {
-                    var fade = game.add.tween(item);
-                    fade.to({ alpha: 0}, 100, Phaser.Easing.Linear.None,  false,0);
+//                    var fade = game.add.tween(item);
+//                    fade.to({ alpha: 0}, 100, Phaser.Easing.Elastic.Out,  false,0);
+                    var fade = game.add.tween(item.scale);
+                    fade.to({ x: 0, y: 0 }, 500, Phaser.Easing.Elastic.In, true);
+
                     fade.start();
                     fade.onComplete.add(function () {
                         BLOCKS.remove(item);

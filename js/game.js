@@ -15,7 +15,7 @@ var ScoreText=void 0 ; // equal to "undefined"
 var GlobalScore =0;
 var Matrix=[];
 var NotUsedMatrix = [];  //  stand for not used;
-var COLOR1={1:"green",2:"orange",3:"pink",4:"yellow"};
+
 var COLOR={1:"blue1",2:"blue2",3:"pink2",4:"red",5:"coffee"};
 var BLOCKS=void 0;
 var HAS_BEEN_FILLED=1;
