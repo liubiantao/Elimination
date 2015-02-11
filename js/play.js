@@ -11,20 +11,18 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         for(var i=0;i<SIZE;i++) //init one 7*7 matrix value to 0;
         {
             Matrix[i]= NOT_FILLED;
-
         }
     },
     create: function () {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.continueClearCount = 0;
         this.drawBackgroundBlock();
         this.drawScoreLabel();
         this.stage.backgroundColor = '#ffffff';
         BLOCKS = game.add.group();
         this.clearSound = game.add.sound('clear');
-
         this.createBlock(35);
-
 
     },
 
@@ -49,12 +47,14 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             var clearList =this.getClearBlockList(item.lastMatrixValue, item.color);
             if (clearList.length === 0) {
                 this.createBlock(7);
-
+                this.continueClearCount =0;
             }
             else
             {
+
                 this.clearBlock(clearList);
                 this.clearSound.play();
+
             }
         }
         this.isInMovingAction = false;
@@ -85,8 +85,15 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
                 this.clearBlock(clearList);
                 this.clearSound.play();
             }
+            else{
+
+            }
 
         }
+        var timer = game.time.create();
+        timer.add(1000,this.checkHasEnded,this);
+        timer.start();
+
 
         this.isInMovingAction = false;
     },
@@ -216,9 +223,11 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         return clearList.length > 1 ? clearList : [];//if only one , then return blank ;
     },
     clearBlock: function (clearList) {
+
         if (typeof clearList !== "object") {
             console.log("clearBlock function: parameter is not valid");
         }
+        this.continueClearCount++;
         var len = clearList.length;
         for (var i = 0; i < len; i++) {
             BLOCKS.forEach(function (item) {
@@ -229,26 +238,27 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
                     fade.to({ x: 0, y: 0 }, 500, Phaser.Easing.Elastic.In, true);
 
                     fade.start();
-                    fade.onComplete.add(function () {
+                    this.isLast = (i===len-1);
+                    fade.onComplete.add(function (point,tween) {
+                        GlobalScore = GlobalScore + Math.pow(2,this.continueClearCount-1);
+
+                        ScoreText.setText(GlobalScore.toString());
                         BLOCKS.remove(item);
                         Matrix[ item.lastMatrixValue] = NOT_FILLED;
 
-                    });
-                    GlobalScore++
-                    ScoreText.setText(GlobalScore.toString());
+                    },this);
+
+
                     return;
                 }
             },this,true)
         }
 
     },
-
-    render: function () {
-        //game.debug.text(this.result,300,300);
-    },
-    update1: function () {
-//        game.physics.arcade.collide(BLOCKS);
-
+    checkHasEnded:function(){
+      if(this.isOver()){
+          this.over();
+      }
     },
     isOver:function(){
         for (var k = 0; k < SIZE; k++) {
