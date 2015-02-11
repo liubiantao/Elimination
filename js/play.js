@@ -46,14 +46,29 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             Matrix[item.lastMatrixValue] = item.color;
             var clearList =this.getClearBlockList(item.lastMatrixValue, item.color);
             if (clearList.length === 0) {
-                this.createBlock(7);
+                var num =7;
+
+                if(GlobalScore<100)
+                    num=10;
+                else if(GlobalScore<150)
+                    num =15;
+                else if(GlobalScore<200)
+                    num=20;
+                else if(GlobalScore<250)
+                    num =25;
+                else if(GlobalScore<300)
+                    num=30;
+                else
+                    num=35;
+
+                this.createBlock(num);
                 this.continueClearCount =0;
             }
             else
             {
 
                 this.clearBlock(clearList);
-                this.clearSound.play();
+                this.clearSound.play('',0,1);
 
             }
         }
@@ -118,7 +133,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         block.body.collideWorldBounds = true;
         block.inputEnabled = true;
         block.input.enableDrag(false, true, false, 255,new Phaser.Rectangle(BasePostion.x,BasePostion.y,WIDTH- 2*BasePostion.x,WIDTH- 2*BasePostion.x));
-        block.input.enableSnap(BasePostion.width, BasePostion.width, false, true, BasePostion.x , BasePostion.y);
+        block.input.enableSnap(BasePostion.width, BasePostion.width, true, true, BasePostion.x , BasePostion.y);
         block.events.onDragStop.add(this.updateBlockPosition, this);
         //add customer property
         // last position
@@ -240,7 +255,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
                     fade.start();
                     this.isLast = (i===len-1);
                     fade.onComplete.add(function (point,tween) {
-                        GlobalScore = GlobalScore + Math.pow(2,this.continueClearCount-1);
+                        GlobalScore = GlobalScore + Math.pow(2,this.continueClearCount-1<0?0:this.continueClearCount-1);
 
                         ScoreText.setText(GlobalScore.toString());
                         BLOCKS.remove(item);

@@ -13,16 +13,47 @@ Game.Over.prototype={
             font: "bold 16px Arial",
             fill: "#333333"
         });
+        var Performance = '';
+
+        if(GlobalScore<10){
+            Performance= 'D-';
+        }
+        else if(GlobalScore <50)
+            Performance= 'D+';
+        else if(GlobalScore <100)
+            Performance= 'C-';
+        else if(GlobalScore <500)
+            Performance= 'C+';
+        else if(GlobalScore <700)
+            Performance= 'B-';
+        else if(GlobalScore <1000)
+            Performance= 'B+';
+
+        else if(GlobalScore <3000)
+            Performance= 'A-';
+        else
+            Performance= 'A+';
+
         introText = game.add.text(game.world.centerX - 60, game.world.centerY-60, 'Game Over!', {
             font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
             fill: "#999",
             align: "center"
         });
-        introText = game.add.text(game.world.centerX-85, game.world.centerY+60, 'Click to play again.', {
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+20, 'Your Performance is:', {
             font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
             fill: "#999",
             align: "center"
         });
+        introText =  game.add.text(game.world.centerX +80, game.world.centerY, Performance, {
+            font: "300 50px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            fill: "#45ADA8",
+            align: "center"
+        });
+//        introText = game.add.text(game.world.centerX-85, game.world.centerY+60, 'Click to play again.', {
+//            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+//            fill: "#999",
+//            align: "center"
+//        });
 
         return game.input.onDown.addOnce(function() {
             GlobalScore = 0;
