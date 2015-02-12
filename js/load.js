@@ -5,11 +5,7 @@ var Game = {};
 Game.Load=function(game){}
 Game.Load.prototype={
     preload:function(){
-//        game.load.image('background','img/bk.png');
-//        game.load.image('green',"img/green.png");
-//        game.load.image('orange','img/orange.png');
-//        game.load.image('pink','img/pink.png');
-//
+
         game.load.image('blue1','img/blue1.png');
         game.load.image('blue2','img/blue2.png');
         game.load.image('pink2','img/pink2.png');

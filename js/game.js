@@ -15,12 +15,14 @@ var ScoreText=void 0 ; // equal to "undefined"
 var GlobalScore =0;
 var Matrix=[];
 var NotUsedMatrix = [];  //  stand for not used;
-
+var BACKGROUNDBLOCKSIZE = 48;
 var COLOR={1:"blue1",2:"blue2",3:"pink2",4:"red",5:"coffee"};
 var BLOCKS=void 0;
 var HAS_BEEN_FILLED=1;
 var NOT_FILLED=0;
 var IS_MOVING=true;
+console.log('↖(▔＾▔)↗  Have Fun!!');
+console.log(' \\(▔▽▔)/   Advice to author: movaxeffort@163.com')
 var game = new Phaser.Game(WIDTH,HEIGHT,Phaser.AUTO,"gameContainer");
 
 game.state.add('Load', Game.Load);

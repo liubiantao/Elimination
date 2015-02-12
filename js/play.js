@@ -15,7 +15,6 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
     },
     create: function () {
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
         this.continueClearCount = 0;
         this.drawBackgroundBlock();
         this.drawScoreLabel();
@@ -127,10 +126,10 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
     drawOneBlock: function (colorIndex, x, y, posx, posy) {
         var block = BLOCKS.create(posx, posy, COLOR[colorIndex]); //TODO make it fake show
         block.alpha=0;
-        game.add.tween(block).to({ alpha: 1}, 1000, Phaser.Easing.Quartic.Out, true, 0).start();
+        block.scale.set(BACKGROUNDBLOCKSIZE/49);
+        game.add.tween(block).to({ alpha:1}, 500, Phaser.Easing.Power3, true, 0).start();
 
-        game.physics.arcade.enable(block);
-        block.body.collideWorldBounds = true;
+
         block.inputEnabled = true;
         block.input.enableDrag(false, true, false, 255,new Phaser.Rectangle(BasePostion.x,BasePostion.y,WIDTH- 2*BasePostion.x,WIDTH- 2*BasePostion.x));
         block.input.enableSnap(BasePostion.width, BasePostion.width, true, true, BasePostion.x , BasePostion.y);
@@ -293,7 +292,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         graphics.beginFill(0xEEEEEE, 0.7); //grey background block
         for(var _i=0;_i<SIZEX;_i++){
             for(var _k=0;_k<SIZEY;_k++){
-                graphics.drawRect(BasePostion.x+_i*BasePostion.width,BasePostion.y+_k*BasePostion.width,BLOCKSIZE-LineBorder,BLOCKSIZE-LineBorder);
+                graphics.drawRect(BasePostion.x+_i*BasePostion.width,BasePostion.y+_k*BasePostion.width,BACKGROUNDBLOCKSIZE,BACKGROUNDBLOCKSIZE);
             }
         }
         graphics.endFill();
