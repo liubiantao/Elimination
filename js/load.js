@@ -11,6 +11,7 @@ Game.Load.prototype={
         game.load.image('pink2','img/pink2.png');
         game.load.image('red','img/red.png');
         game.load.image('coffee','img/coffee.png');
+        game.load.image('egg1','img/coloregg1.png');
         game.load.audio('clear',['audio/clear.wav']);
 
 

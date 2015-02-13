@@ -13,6 +13,10 @@ var SIZEY= 7;
 var MIN_CLEAR_SIZE=3;
 var ScoreText=void 0 ; // equal to "undefined"
 var GlobalScore =0;
+var MaxClearMovementCount=0;
+var HasFoundEGG = false;
+var DEBUG_CURRENT_CLEAR_COUNT=0;
+var DEBUG_MOVEMENT_LIST='';
 var Matrix=[];
 var NotUsedMatrix = [];  //  stand for not used;
 var BACKGROUNDBLOCKSIZE = 48;
@@ -21,6 +25,10 @@ var BLOCKS=void 0;
 var HAS_BEEN_FILLED=1;
 var NOT_FILLED=0;
 var IS_MOVING=true;
+var UP="1";
+var DOWN="2";
+var NOTUPNOTDOWN="0";
+var COLOREGGLIST="110";//221122"; //1 stands for "up" 2 for "down"
 console.log('↖(▔＾▔)↗  Have Fun!!');
 console.log(' \\(▔▽▔)/   Advice to author: movaxeffort@163.com')
 var game = new Phaser.Game(WIDTH,HEIGHT,Phaser.AUTO,"gameContainer");

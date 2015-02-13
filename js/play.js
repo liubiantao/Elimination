@@ -4,7 +4,8 @@
 "use strict";
 Game.Play = function () {
     this.result = "";
-    this.isInMovingAction = true;
+    this.lastMovementList= void 0;
+
 }
 Game.Play.prototype = { // to make show level,not score,then adjust createblock number with level
     preload:function(){
@@ -12,30 +13,94 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         {
             Matrix[i]= NOT_FILLED;
         }
+        MaxClearMovementCount=0;
+        this.movementList='';
+
+         DEBUG_CURRENT_CLEAR_COUNT=0;
+         DEBUG_MOVEMENT_LIST='';
+         HasFoundEGG=false
     },
     create: function () {
-
+        
         this.continueClearCount = 0;
         this.drawBackgroundBlock();
         this.drawScoreLabel();
         this.stage.backgroundColor = '#ffffff';
         BLOCKS = game.add.group();
         this.clearSound = game.add.sound('clear');
+
+
+
+
         this.createBlock(35);
 
     },
 
+    clearAll:function(){
+        if(HasFoundEGG===false){
+        this.egg1=game.add.sprite(20,60,'egg1');
+        this.egg1.scale.set(5);
+        game.add.tween(this.egg1.scale).to({x:1,y:1}, 1000, Phaser.Easing.Elastic.Out, true, 0).start();
+        HasFoundEGG =true;
+        }
+
+
+        var clearList=[];
+
+        for(var _i=0;_i<SIZE;_i++){
+            if(Matrix[_i]!==NOT_FILLED)
+                clearList.push(_i);
+        }
+        this.clearBlock(clearList);
+
+        this.clearSound.play();
+},
+    checkColorEgg:function(lastPos,curPos){
+
+        var lasty=this.getY(lastPos);
+        var cury=this.getY(curPos);
+        var curMovement;
+        if(cury>lasty){
+            curMovement = DOWN;
+        }
+        else if(cury<lasty){
+            curMovement =UP;
+        }
+        else { // not go up or down, then it is same
+            curMovement = NOTUPNOTDOWN;
+        }
+        this.movementList = this.movementList.concat(curMovement);
+        DEBUG_MOVEMENT_LIST = this.movementList;
+        var len = this.movementList.length;
+        if (len > COLOREGGLIST.length){
+            this.movementList = this.movementList.slice(- COLOREGGLIST.length);
+            DEBUG_MOVEMENT_LIST = this.movementList;
+        }
+        if( this.movementList.indexOf(COLOREGGLIST)!=-1){
+            return 0;
+        }
+
+        return -1;
+    },
     updateBlockPosition: function (item) {
         if(this.isOver() )
             this.over();
 
-        this.isInMovingAction = true;
-        var hasMoved = false;
+
+
         if (this.canBeMoved(item.lastMatrixValue, (item.y-BasePostion.y)/ BLOCKSIZE * SIZEX + (item.x-BasePostion.x)/ BLOCKSIZE) === -1) { // -1 standard for can not moved, so backto last position
             item.x = item.lastPostionX;
             item.y = item.lastPostionY;
         }
         else { //could move
+            var newPosition = (item.y-BasePostion.y)/ BLOCKSIZE * SIZEX + (item.x-BasePostion.x)/ BLOCKSIZE;
+            if(this.checkColorEgg(item.lastMatrixValue,newPosition)===0){ //check color egg firstly
+                this.clearAll();
+                var timer = game.time.create();
+                timer.add(1000,this.createBlock,this,35);
+                timer.start();
+                return;
+            }
             //1.record last position property
             item.lastPostionX = item.x;
             item.lastPostionY = item.y;
@@ -71,12 +136,12 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
 
             }
         }
-        this.isInMovingAction = false;
+
 
     },
     createBlock: function (num, level) {//level 0 =hard,level -1=normal
 
-        this.isInMovingAction = true;
+
         if (typeof level === "undefined") {
             level = 0;
         }
@@ -109,7 +174,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         timer.start();
 
 
-        this.isInMovingAction = false;
+
     },
     getX: function (id) {
         return Math.floor(id % SIZEX);
@@ -242,6 +307,10 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             console.log("clearBlock function: parameter is not valid");
         }
         this.continueClearCount++;
+        DEBUG_CURRENT_CLEAR_COUNT = this.continueClearCount;
+        if(this.continueClearCount > MaxClearMovementCount){
+            MaxClearMovementCount = this.continueClearCount;
+        }
         var len = clearList.length;
         for (var i = 0; i < len; i++) {
             BLOCKS.forEach(function (item) {
@@ -252,7 +321,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
                     fade.to({ x: 0, y: 0 }, 500, Phaser.Easing.Elastic.In, true);
 
                     fade.start();
-                    this.isLast = (i===len-1);
+
                     fade.onComplete.add(function (point,tween) {
                         GlobalScore = GlobalScore + Math.pow(2,this.continueClearCount-1<0?0:this.continueClearCount-1);
 

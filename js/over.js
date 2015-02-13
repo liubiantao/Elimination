@@ -30,10 +30,11 @@ Game.Over.prototype={
             Performance= 'B+';
 
         else if(GlobalScore <3000)
+            Performance= 'A--';
+        else if(GlobalScore <10000)
             Performance= 'A-';
         else
-            Performance= 'A+';
-
+            Performance= 'A';
         introText = game.add.text(game.world.centerX - 60, game.world.centerY-60, 'Game Over!', {
             font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
             fill: "#999",
@@ -49,14 +50,29 @@ Game.Over.prototype={
             fill: "#45ADA8",
             align: "center"
         });
-//        introText = game.add.text(game.world.centerX-85, game.world.centerY+60, 'Click to play again.', {
-//            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
-//            fill: "#999",
-//            align: "center"
-//        });
-
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+80, 'Max Con-clear Count:', {
+            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            fill: "#999",
+            align: "center"
+        });
+        introText =  game.add.text(game.world.centerX +80, game.world.centerY+60, MaxClearMovementCount.toString(), {
+            font: "300 50px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            fill: "#45ADA8",
+            align: "center"
+        });
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+140, 'Color Egg Found:', {
+            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            fill: "#999",
+            align: "center"
+        });
+        introText =  game.add.text(game.world.centerX +80, game.world.centerY+130, HAS_BEEN_FILLED===true?'1':'NAN', {
+            font: "300 40px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            fill: "#45ADA8",
+            align: "center"
+        });
         return game.input.onDown.addOnce(function() {
             GlobalScore = 0;
+            MaxClearMovementCount=0;
             return game.state.start('Play');
         });
     },
