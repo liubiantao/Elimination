@@ -2,16 +2,33 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Elimination By MagicWu</title>
+    <link href="style/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=420, minimal-ui">
     <style>
-        body{ text-align:center}
         body {
             background: #eee;
         }
-        .gameContainer{ margin:0  auto;}
+        .main {
 
-        canvas {
-            margin: auto;
+            width: 100%;;
+            text-align: center;
+
+        }
+        .gameContainer{
+            display:inline-block;
+            position: relative;
+            padding: 10em 0 2em;
+            margin: 5% auto;
+            max-width: 100%;;
+            text-align: center;
+        }
+
+        #gameLabel{
+            padding: 0;
+            margin: -10em 0 -5em;
+            height: 31em;
         }
     </style>
     <script type="text/javascript" src="js/phaser-no-physics.min.js"></script>
@@ -22,9 +39,12 @@
     <script type="text/javascript" src="./js/game.js"></script>
 </head>
 <body>
-    <div id="gameContainer" >
+<div class="main">
+    <div class="gameContainer">
+    <div id="gameLabel" >
 
     </div>
-
+    </div>
+</div>
 </body>
 </html>

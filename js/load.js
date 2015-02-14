@@ -44,17 +44,29 @@ Game.Load.prototype={
     },
     create:function(){
         game.stage.backgroundColor = '#ffffff';
+
+
         try{
             this.initLang();//get and set language
         }
         catch(err){
             LANGUAGE='en'; //set default to english
         }
-        introText = game.add.text(game.world.centerX - 60, game.world.centerY,this.langResource[LANGUAGE]['game.start'], {
-            //roboto for android, Helvetica for mac, tahoma for windows, arial for mac&win stxihei for mac chinese, yahei for win7 chinese,simhei for winxp chinese
-            // sans system default
-            font: "300 20px "+FONT,
+        introText = game.add.text(game.world.centerX - 70, game.world.centerY-150,'Elimination', {
 
+            font: "300 30px "+FONT,
+            fill: "#222",
+            align: "center"
+        });
+        var block = game.add.sprite(game.world.centerX - 120-20, game.world.centerY-60,'red');
+        var block = game.add.sprite(game.world.centerX - 60-20, game.world.centerY-60,'blue1');
+
+        var block = game.add.sprite(game.world.centerX -20, game.world.centerY-60,'blue2');
+        var block = game.add.sprite(game.world.centerX +60-20, game.world.centerY-60,'pink2');
+        var block = game.add.sprite(game.world.centerX +120-20, game.world.centerY-60,'coffee');
+        introText = game.add.text(game.world.centerX - 60, game.world.centerY+60,this.langResource[LANGUAGE]['game.start'], {
+
+            font: "300 20px "+FONT,
             fill: "#999",
             align: "center"
         });

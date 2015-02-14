@@ -17,8 +17,8 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         MaxClearMovementCount=0;
         this.movementList='';
 
-         DEBUG_CURRENT_CLEAR_COUNT=0;
-         DEBUG_MOVEMENT_LIST='';
+
+
          HasFoundEGG=false
     },
     create: function () {
@@ -26,12 +26,10 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         this.continueClearCount = 0;
         this.drawBackgroundBlock();
         this.drawScoreLabel();
+        this.drawAuthor();
         this.stage.backgroundColor = '#ffffff';
         BLOCKS = game.add.group();
         this.clearSound = game.add.sound('clear');
-
-
-
 
         this.createBlock(35);
 
@@ -71,11 +69,11 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             curMovement = NOTUPNOTDOWN;
         }
         this.movementList = this.movementList.concat(curMovement);
-        DEBUG_MOVEMENT_LIST = this.movementList;
+
         var len = this.movementList.length;
         if (len > COLOREGGLIST.length){
             this.movementList = this.movementList.slice(- COLOREGGLIST.length);
-            DEBUG_MOVEMENT_LIST = this.movementList;
+
         }
         if( this.movementList.indexOf(COLOREGGLIST)!=-1){
             return 0;
@@ -308,7 +306,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             console.log("clearBlock function: parameter is not valid");
         }
         this.continueClearCount++;
-        DEBUG_CURRENT_CLEAR_COUNT = this.continueClearCount;
+
         if(this.continueClearCount > MaxClearMovementCount){
             MaxClearMovementCount = this.continueClearCount;
         }
@@ -376,5 +374,13 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
             font: "bold 16px Arial",
             fill: "#333333"
         });
+    },
+    drawAuthor:function(){
+
+        game.add.text(16, 480, "By "+Author, {
+            font: "25px Helvetica Neu, Helvetica, Arial, sans-serif;",
+            fill: "#999"
+        });
+
     }
 }
