@@ -28,7 +28,11 @@ var IS_MOVING=true;
 var UP="1";
 var DOWN="2";
 var NOTUPNOTDOWN="0";
-var COLOREGGLIST="110";//221122"; //1 stands for "up" 2 for "down"
+var COLOREGGLIST="112200"; //1 stands for "up" 2 for "down" 0 for no up no down
+var LANGUAGE=void 0;
+//roboto for android, Helvetica for mac, tahoma for windows, arial for mac&win stxihei for mac chinese, yahei for win7 chinese,simhei for winxp chinese
+// sans system default
+var FONT=" Roboto,Helvetica Neue, Helvetica, Tahoma, Arial,STXihei,Microsoft YaHei,Simhei, sans-serif";
 console.log('↖(▔＾▔)↗  Have Fun!!');
 console.log(' \\(▔▽▔)/   Advice to author: movaxeffort@163.com')
 var game = new Phaser.Game(WIDTH,HEIGHT,Phaser.AUTO,"gameContainer");

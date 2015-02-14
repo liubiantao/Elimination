@@ -8,6 +8,7 @@ Game.Play = function () {
 
 }
 Game.Play.prototype = { // to make show level,not score,then adjust createblock number with level
+
     preload:function(){
         for(var i=0;i<SIZE;i++) //init one 7*7 matrix value to 0;
         {
@@ -21,7 +22,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
          HasFoundEGG=false
     },
     create: function () {
-        
+
         this.continueClearCount = 0;
         this.drawBackgroundBlock();
         this.drawScoreLabel();

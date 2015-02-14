@@ -3,6 +3,8 @@
  */
 Game.Over=function(){}
 Game.Over.prototype={
+    langResource:{"en":{"game.over":"Game Over!","game.performance":"Your Performance is:","game.egg":"Color Egg Found:","game.maxconclear":"Max Con-clear Count:"},
+        "zh":{"game.over":"游戏结束！","game.performance":"你的表现：","game.egg":"发现彩蛋个数：","game.maxconclear":"最长连续消除次数："}},
     create:function(){
 
         game.add.text(16, 30, "SCORE :" , {
@@ -31,48 +33,49 @@ Game.Over.prototype={
 
         else if(GlobalScore <3000)
             Performance= 'A--';
-        else if(GlobalScore <10000)
+        else if(GlobalScore <20000)
             Performance= 'A-';
         else
             Performance= 'A';
-        introText = game.add.text(game.world.centerX - 60, game.world.centerY-60, 'Game Over!', {
-            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+        introText = game.add.text(game.world.centerX - 60, game.world.centerY-60, this.langResource[LANGUAGE]['game.over'], {
+            font: "300 20px " +FONT,
             fill: "#999",
             align: "center"
         });
-        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+20, 'Your Performance is:', {
-            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+20, this.langResource[LANGUAGE]['game.performance'], {
+            font: "300 20px"+FONT,
             fill: "#999",
             align: "center"
         });
         introText =  game.add.text(game.world.centerX +80, game.world.centerY, Performance, {
-            font: "300 50px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            font: "300 50px"+FONT,
             fill: "#45ADA8",
             align: "center"
         });
-        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+80, 'Max Con-clear Count:', {
-            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+80,this.langResource[LANGUAGE]["game.maxconclear"], {
+            font: "300 20px"+FONT,
             fill: "#999",
             align: "center"
         });
         introText =  game.add.text(game.world.centerX +80, game.world.centerY+60, MaxClearMovementCount.toString(), {
-            font: "300 50px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+            font: "300 50px"+FONT,
             fill: "#45ADA8",
             align: "center"
         });
-        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+140, 'Color Egg Found:', {
-            font: "300 20px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+        introText =  game.add.text(game.world.centerX - 130, game.world.centerY+140,this.langResource[LANGUAGE]["game.egg"], {
+            font: "300 20px"+FONT,
             fill: "#999",
             align: "center"
         });
-        introText =  game.add.text(game.world.centerX +80, game.world.centerY+130, HAS_BEEN_FILLED===true?'1':'NAN', {
-            font: "300 40px Roboto, Helvetica Neue, Helvetica, Arial, sans-serif",
+        introText =  game.add.text(game.world.centerX +80, game.world.centerY+130, HasFoundEGG===true?'1':'0', {
+            font: "300 40px"+FONT,
             fill: "#45ADA8",
             align: "center"
         });
         return game.input.onDown.addOnce(function() {
             GlobalScore = 0;
             MaxClearMovementCount=0;
+            HasFoundEGG=false;
             return game.state.start('Play');
         });
     },
