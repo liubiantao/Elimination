@@ -15,6 +15,8 @@ var ScoreText=void 0 ; // equal to "undefined"
 var GlobalScore =0;
 var MaxClearMovementCount=0;
 var HasFoundEGG = false;
+var MaxColorEggCount = 0;
+var EggCountText = void 0;
 
 var Matrix=[];
 

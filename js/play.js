@@ -18,8 +18,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
         this.movementList='';
 
 
-
-         HasFoundEGG=false
+        HasFoundEGG=false;
     },
     create: function () {
 
@@ -37,12 +36,18 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
 
     clearAll:function(){
         if(HasFoundEGG===false){
-        this.egg1=game.add.sprite(20,60,'egg1');
-        this.egg1.scale.set(5);
-        game.add.tween(this.egg1.scale).to({x:1,y:1}, 1000, Phaser.Easing.Elastic.Out, true, 0).start();
-        HasFoundEGG =true;
+            this.egg1=game.add.sprite(20,60,'egg1');
+            this.egg1.scale.set(5);
+            EggCountText = game.add.text(50, 70, "* 1", {
+                font: "bold 16px Arial",
+                fill: "#333333"
+            })
+            game.add.tween(this.egg1.scale).to({x:1,y:1}, 1000, Phaser.Easing.Elastic.Out, true, 0).start();
+            HasFoundEGG =true;
         }
-
+        else {
+            EggCountText.setText("* " + MaxColorEggCount.toString());
+        }   
 
         var clearList=[];
 
@@ -76,6 +81,7 @@ Game.Play.prototype = { // to make show level,not score,then adjust createblock 
 
         }
         if( this.movementList.indexOf(COLOREGGLIST)!=-1){
+            MaxColorEggCount ++ ;
             return 0;
         }
 

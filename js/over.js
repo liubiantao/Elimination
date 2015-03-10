@@ -67,7 +67,7 @@ Game.Over.prototype={
             fill: "#999",
             align: "center"
         });
-        introText =  game.add.text(game.world.centerX +80, game.world.centerY+130, HasFoundEGG===true?'1':'0', {
+        introText =  game.add.text(game.world.centerX +80, game.world.centerY+130, MaxColorEggCount.toString(), {
             font: "300 40px"+FONT,
             fill: "#45ADA8",
             align: "center"
@@ -76,6 +76,7 @@ Game.Over.prototype={
             GlobalScore = 0;
             MaxClearMovementCount=0;
             HasFoundEGG=false;
+            MaxColorEggCount = 0;
             return game.state.start('Play');
         });
     },
